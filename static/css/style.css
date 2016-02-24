@@ -1,0 +1,7 @@
+@CHARSET "UTF-8";
+
+.mainTable td {width: 15px;}
+
+.mainDiv {width:400px; display:block;float:left;}
+
+.formDiv {margin-top:50px;}
