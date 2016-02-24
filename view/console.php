@@ -42,6 +42,8 @@ foreach (Battleships::getShips() as $shipName => $ship) {
 }
 
 echo "\nShots fired: ".Battleships::fetchTheGrid()->getShotsFired();
+echo "\nShots hit  : ".Battleships::fetchTheGrid()->getShotsHit();
+echo "\nShots miss : ".Battleships::fetchTheGrid()->getShotsMissed();
 
 echo "\n\n";
 

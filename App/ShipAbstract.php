@@ -152,8 +152,5 @@ class ShipAbstract extends AbstractBattleship {
 		$this->setShipDirection($this->getDirection());
 		$this->setShipHead($this->getHead());
 		$this->setShipIsSunk($this->getShipIsSunk());
-		
-		/*$Ships[$shipName]->setHorizontalDirection(0);
-		$Ships[$shipName]->setVerticalDirection(1);*/
 	}
 }

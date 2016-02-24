@@ -12,9 +12,13 @@ class Grid extends AbstractBattleship {
 		$this->setWidth(GRID_WIDTH);
 		$this->setHeight(GRID_HEIGHT);
 		$this->setLetterOffset(ord("A"));
-		$this->setShotsFired(0);
 		
 		Battleships::log('Initializing ' . $this->getWidth() . 'x' . $this->getHeight() . ' grid');
+		
+		// grid shots fired
+		$this->setShotsFired(0);
+		$this->setShotsHit(0);
+		$this->setShotsMissed(0);
 		
 		// grid chars, in case we want to change them during runtime
 		$this->setCharDefault(GRID_DEFAULT_VALUE);
@@ -71,8 +75,10 @@ class Grid extends AbstractBattleship {
 			$ship->saveToSession($shipName);
 		}
 		
-		// save shots fired
+		// save shots
 		$_SESSION['battleships_data']['shots_fired'] = $this->getShotsFired();
+		$_SESSION['battleships_data']['shots_hit'] 	 = $this->getShotsHit();
+		$_SESSION['battleships_data']['shots_missed']= $this->getShotsMissed();
 		return true;
 	}
 	
@@ -102,12 +108,24 @@ class Grid extends AbstractBattleship {
 				$Ships[$shipName]->setVerticalDirection(1);
 			}
 			
-			// load shots fired
+			// load shots
 			if (isset($_SESSION['battleships_data']['shots_fired'])) {
 				$this->setShotsFired($_SESSION['battleships_data']['shots_fired']);
 			}
 			else {
 				$this->setShotsFired(0);
+			}
+			if (isset($_SESSION['battleships_data']['shots_hit'])) {
+				$this->setShotsHit($_SESSION['battleships_data']['shots_hit']);
+			}
+			else {
+				$this->setShotsHit(0);
+			}
+			if (isset($_SESSION['battleships_data']['shots_missed'])) {
+				$this->setShotsMissed($_SESSION['battleships_data']['shots_missed']);
+			}
+			else {
+				$this->setShotsMissed(0);
 			}
 		}
 		return true;
@@ -211,11 +229,13 @@ class Grid extends AbstractBattleship {
 		
 		if ($pointValue == $this->getCharShip()) {
 			$this->updateGridPoint($aPoint, $this->getCharHit());
+			$this->setShotsHit($this->getShotsHit() + 1);
 			Battleships::log('('.$aPoint['x'].','.$aPoint['y'].') HIT !!');
 			return true;
 		}
 		else {
 			$this->updateGridPoint($aPoint, $this->getCharMiss());
+			$this->setShotsMissed($this->getShotsMissed() + 1);
 			Battleships::log('('.$aPoint['x'].','.$aPoint['y'].') MISS !');
 			return false;
 		}
