@@ -183,10 +183,10 @@ class Battleships {
 	 */
 	public static function getShips() {
 		return array(
-			'PatrolBoat1' 	=> self::$PatrolBoat1,
-			'PatrolBoat2'	=> self::$PatrolBoat2,
-			'Battleship' 	=> self::$Battleship,
-			'Carrier'		=> self::$Carrier
+			NAME_PATROLBOAT1 	=> self::$PatrolBoat1,
+			NAME_PATROLBOAT2	=> self::$PatrolBoat2,
+			NAME_BATTLESHIP 	=> self::$Battleship,
+			NAME_CARRIER		=> self::$Carrier
 		);
 	}
 	

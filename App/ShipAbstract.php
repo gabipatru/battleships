@@ -125,4 +125,35 @@ class ShipAbstract extends AbstractBattleship {
 		
 		$this->setShipIsSunk(true);
 	}
+	
+	/*
+	 * Save ship to session and load ship from session
+	 */
+	public function saveToSession($shipName) {
+		if (!$shipName) {
+			Battleships::log('No ship name specified when saving to session');
+			return false;
+		}
+		
+		$_SESSION['battleships_meta'][$shipName] = array();
+		$_SESSION['battleships_meta'][$shipName]['direction'] = $this->getShipDirection();
+		$_SESSION['battleships_meta'][$shipName]['head'] = $this->getShipHead();
+		$_SESSION['battleships_meta'][$shipName]['ship_is_sunk'] = $this->getShipIsSunk();
+		
+		return true;
+	}
+	
+	public function loadFromSession($shipName) {
+		if (!$shipName) {
+			Battleships::log('No ship name specified when loading from session');
+			return false;
+		}
+		
+		$this->setShipDirection($this->getDirection());
+		$this->setShipHead($this->getHead());
+		$this->setShipIsSunk($this->getShipIsSunk());
+		
+		/*$Ships[$shipName]->setHorizontalDirection(0);
+		$Ships[$shipName]->setVerticalDirection(1);*/
+	}
 }

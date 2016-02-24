@@ -68,10 +68,7 @@ class Grid extends AbstractBattleship {
 		
 		// save ship data
 		foreach (Battleships::getShips() as $shipName => $ship) {
-			$_SESSION['battleships_meta'][$shipName] = array();
-			$_SESSION['battleships_meta'][$shipName]['direction'] = $ship->getShipDirection();
-			$_SESSION['battleships_meta'][$shipName]['head'] = $ship->getShipHead();
-			$_SESSION['battleships_meta'][$shipName]['ship_is_sunk'] = $ship->getShipIsSunk();
+			$ship->saveToSession($shipName);
 		}
 		
 		// save shots fired

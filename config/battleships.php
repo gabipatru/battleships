@@ -30,3 +30,9 @@ define('CARRIER_SIZE', 5);
 
 // ship deployment
 define('MAX_TRIES', 100);								// to avoid potential infinite loops
+
+// ship names
+define("NAME_PATROLBOAT1", "PatrolBoat1");
+define("NAME_PATROLBOAT2", "PatrolBoat2");
+define("NAME_BATTLESHIP", "Battleship");
+define("NAME_CARRIER", "Carrier");
