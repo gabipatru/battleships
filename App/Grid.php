@@ -19,6 +19,7 @@ class Grid extends AbstractBattleship {
 		$this->setShotsFired(0);
 		$this->setShotsHit(0);
 		$this->setShotsMissed(0);
+		$this->setLastShot(-1);
 		
 		// grid chars, in case we want to change them during runtime
 		$this->setCharDefault(GRID_DEFAULT_VALUE);
@@ -79,6 +80,7 @@ class Grid extends AbstractBattleship {
 		$_SESSION['battleships_data']['shots_fired'] = $this->getShotsFired();
 		$_SESSION['battleships_data']['shots_hit'] 	 = $this->getShotsHit();
 		$_SESSION['battleships_data']['shots_missed']= $this->getShotsMissed();
+		$_SESSION['battleships_data']['last_shot']   = $this->getLastShot();
 		return true;
 	}
 	
@@ -126,6 +128,12 @@ class Grid extends AbstractBattleship {
 			}
 			else {
 				$this->setShotsMissed(0);
+			}
+			if (isset($_SESSION['battleships_data']['last_shot'])) {
+				$this->setLastShot($_SESSION['battleships_data']['last_shot']);
+			}
+			else {
+				$this->setLastShot(-1);
 			}
 		}
 		return true;
@@ -230,12 +238,14 @@ class Grid extends AbstractBattleship {
 		if ($pointValue == $this->getCharShip()) {
 			$this->updateGridPoint($aPoint, $this->getCharHit());
 			$this->setShotsHit($this->getShotsHit() + 1);
+			$this->setLastShot(true);
 			Battleships::log('('.$aPoint['x'].','.$aPoint['y'].') HIT !!');
 			return true;
 		}
 		else {
 			$this->updateGridPoint($aPoint, $this->getCharMiss());
 			$this->setShotsMissed($this->getShotsMissed() + 1);
+			$this->setLastShot(false);
 			Battleships::log('('.$aPoint['x'].','.$aPoint['y'].') MISS !');
 			return false;
 		}

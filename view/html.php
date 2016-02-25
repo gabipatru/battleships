@@ -68,6 +68,9 @@
 <?php foreach (Battleships::getShips() as $shipName => $ship):?>
 	<p><?php echo $shipName; ?>: <?php echo ($ship->getShipIsSunk() ? 'sunk' : 'floating')?></p>
 <?php endforeach;?>
+<?php if (Battleships::fetchTheGrid()->getLastShot() !== -1):?>
+	<p>Last shot : <?php echo (Battleships::fetchTheGrid()->getLastShot() ? 'hit!' : 'miss');?></p>
+<?php endif;?>
 <p>Shots fired : <?php echo Battleships::fetchTheGrid()->getShotsFired();?></p>
 <p>Shots hit : <?php echo Battleships::fetchTheGrid()->getShotsHit();?></p>
 <p>Shots missed : <?php echo Battleships::fetchTheGrid()->getShotsMissed();?></p>

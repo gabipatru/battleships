@@ -41,6 +41,9 @@ foreach (Battleships::getShips() as $shipName => $ship) {
 	echo $shipName.": ". ($ship->getShipIsSunk() ? 'sunk' : 'floating') . "\n";
 }
 
+if (Battleships::fetchTheGrid()->getLastShot() !== -1) {
+	echo "\nLast shot : ".(Battleships::fetchTheGrid()->getLastShot() ? 'hit!' : 'miss');
+}
 echo "\nShots fired: ".Battleships::fetchTheGrid()->getShotsFired();
 echo "\nShots hit  : ".Battleships::fetchTheGrid()->getShotsHit();
 echo "\nShots miss : ".Battleships::fetchTheGrid()->getShotsMissed();
