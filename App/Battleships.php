@@ -38,6 +38,7 @@ class Battleships {
 		self::$Config->setLogFile('main_log.log');
 		self::$Config->setEnableLog(true);
 		self::$Config->setEnableDebug(false);
+		self::$Config->setCheating(false);
 		
 		self::log('Start application init');
 		
@@ -99,12 +100,17 @@ class Battleships {
 			self::$Output->display(self::$Grid);
 			$mixedPoint = self::$Input->readInput();
 			
-			// get the shot values, transfor to coordinates
-			$aPoint = self::processInput($mixedPoint);
+			if ($mixedPoint == 'show') {
+				self::$Config->setCheating(true);
+			}
+			else {
+				// get the shot values, transfor to coordinates
+				$aPoint = self::processInput($mixedPoint);
 
-			// compute results
-			$result = self::$Grid->fireControl($aPoint);
-			self::shipsDamageControl();
+				// compute results
+				$result = self::$Grid->fireControl($aPoint);
+				self::shipsDamageControl();
+			}
 		}
 		
 		system('clear');
@@ -124,7 +130,10 @@ class Battleships {
 		$mixedPoint = self::$Input->readInput();
 		
 		// process input if any
-		if ($mixedPoint) {
+		if ($mixedPoint == 'show') {
+			self::$Config->setCheating(true);
+		}
+		elseif ($mixedPoint) {
 			$aPoint = self::processInput($mixedPoint);
 			
 			// compute results

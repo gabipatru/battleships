@@ -48,6 +48,8 @@
 
 <br style="clear: both;" />
 
+<?php require('html-cheating.php');?>
+
 <?php if (!Battleships::allShipsAreSunk()): ?>
 <div class="formDiv">
 	<form method="POST" action="">

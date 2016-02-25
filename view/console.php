@@ -37,6 +37,9 @@ foreach ($theGrid as $key => $row) {
 
 echo "\n\n";
 
+// cheating display
+require('console-cheating.php');
+
 foreach (Battleships::getShips() as $shipName => $ship) {
 	echo $shipName.": ". ($ship->getShipIsSunk() ? 'sunk' : 'floating') . "\n";
 }
