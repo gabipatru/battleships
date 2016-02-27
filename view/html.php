@@ -44,7 +44,6 @@
 	<?php endforeach;?>
 </table>
 </div>
-</div>
 
 <br style="clear: both;" />
 
@@ -53,7 +52,13 @@
 <?php if (!Battleships::allShipsAreSunk()): ?>
 <div class="formDiv">
 	<form method="POST" action="">
-		<span>Enter coordinates (row, col), e.g. A5: </span>
+		<span>
+		<?php if (!Battleships::fetchTheConfig()->getPlayerName()):?>
+			Enter your name: 
+		<?php else:?>
+			Enter coordinates (row, col), e.g. A5:
+		<?php endif?> 
+		</span>
 		<input type="text" name="fire" id="fire" />
 		<input type="submit" name="submit" value="FIRE" />
 		<input type="submit" name="new_game" value="New Game" />
@@ -67,6 +72,9 @@
 <?php endif;?>
 
 <div>
+<?php if (Battleships::fetchTheConfig()->getPlayerName()):?>
+	<p>Hello, <?php echo Battleships::fetchTheConfig()->getPlayerName()?>, welcome to Battleships!</p>
+<?php endif;?>
 <?php foreach (Battleships::getShips() as $shipName => $ship):?>
 	<p><?php echo $shipName; ?>: <?php echo ($ship->getShipIsSunk() ? 'sunk' : 'floating')?></p>
 <?php endforeach;?>
@@ -77,6 +85,8 @@
 <p>Shots hit : <?php echo Battleships::fetchTheGrid()->getShotsHit();?></p>
 <p>Shots missed : <?php echo Battleships::fetchTheGrid()->getShotsMissed();?></p>
 </div>
+
+<?php require('html-hall-of-heroes.php')?>
 
 </body>
 </html>

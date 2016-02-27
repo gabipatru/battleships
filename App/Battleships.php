@@ -15,6 +15,8 @@ class Battleships {
 	private static $Battleship;
 	private static $Carrier;
 	
+	private static $HallOfHeroes;
+	
 	/*
 	 * Autoloading
 	 */
@@ -41,6 +43,8 @@ class Battleships {
 		self::$Config->setCheating(false);
 		
 		self::log('Start application init');
+		
+		self::$HallOfHeroes = new HallOfHeroes();
 		
 		self::$Config->sessionStart();
 		
@@ -98,19 +102,7 @@ class Battleships {
 			system('clear');
 			
 			self::$Output->display(self::$Grid);
-			$mixedPoint = self::$Input->readInput();
-			
-			if ($mixedPoint == 'show') {
-				self::$Config->setCheating(true);
-			}
-			else {
-				// get the shot values, transfor to coordinates
-				$aPoint = self::processInput($mixedPoint);
-
-				// compute results
-				$result = self::$Grid->fireControl($aPoint);
-				self::shipsDamageControl();
-			}
+			self::process();
 		}
 		
 		system('clear');
@@ -127,24 +119,40 @@ class Battleships {
 		
 		self::$Grid->load();
 
-		$mixedPoint = self::$Input->readInput();
-		
-		// process input if any
-		if ($mixedPoint == 'show') {
-			self::$Config->setCheating(true);
-		}
-		elseif ($mixedPoint) {
-			$aPoint = self::processInput($mixedPoint);
-			
-			// compute results
-			$result = self::$Grid->fireControl($aPoint);
-			self::shipsDamageControl();
-		}
+		// process data
+		self::process();
 		
 		self::$Output->display(self::$Grid);
 		ob_flush();
 		self::$Grid->save();
 
+	}
+	
+	/*
+	 * Function processes input data, updates grid data and ships data
+	 */
+	private static function process() {
+		$mixedPoint = self::$Input->readInput();
+		
+		// process input if any
+		if ($mixedPoint && !self::$Config->getPlayerName()) {
+			self::$Config->setPlayerName($mixedPoint);
+			
+			// game timer starts after player enters his name
+			if (!self::$Config->getPlayerStart()) {
+				self::$Config->setPlayerStart(time());
+			}
+		}
+		elseif ($mixedPoint == 'show') {
+			self::$Config->setCheating(true);
+		}
+		elseif ($mixedPoint) {
+			$aPoint = self::processInput($mixedPoint);
+				
+			// compute results
+			$result = self::$Grid->fireControl($aPoint);
+			self::shipsDamageControl();
+		}
 	}
 	
 	/*
@@ -168,6 +176,25 @@ class Battleships {
 	private static function shipsDamageControl() {
 		foreach (self::getShips() as $ship) {
 			$ship->damageControl(self::$Grid);
+		}
+		
+		// we need to o some ops when the game ends like save score, load hall of heroes
+		if (self::allShipsAreSunk()) {
+			if (!self::$Config->getPlayerEnd()) {
+				self::$Config->setPlayerEnd(time());
+			}
+			
+			// do some checks before saving data to file
+			if (self::$Config->getPlayerName() && self::$Grid->getShotsHit() && self::$Grid->getShotsMissed()) {
+				self::$HallOfHeroes->saveData(array(
+					self::$Config->getPlayerName(),
+					self::$Config->getPlayerEnd() - self::$Config->getPlayerStart(),
+					self::$Grid->getShotsHit(),
+					self::$Grid->getShotsMissed()
+				));
+			}
+			
+			self::loadHallOfHeroes();
 		}
 	}
 	
@@ -220,5 +247,16 @@ class Battleships {
 	
 	public static function fetchTheConfig() {
 		return self::$Config;
+	}
+	
+	public static function fetchHallOfHeroes() {
+		return self::$HallOfHeroes;
+	}
+	
+	/*
+	 * Load endgame data
+	 */
+	public static function loadHallOfHeroes() {
+		self::$HallOfHeroes->loadData();
 	}
 }

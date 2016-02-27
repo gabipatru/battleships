@@ -7,9 +7,11 @@
 // physical folders
 define('BASE_DIR', '/var/www/battleships');
 define('APP_DIR', BASE_DIR . '/App');
+define('TRAITS_DIR', APP_DIR . '/traits');
 define('CONFIG_DIR', BASE_DIR . '/config');
 define('LOG_DIR', BASE_DIR . '/logs');
 define('VIEW_DIR', BASE_DIR . '/view');
+define('DATA_DIR', BASE_DIR . '/data');
 
 // http
 define('HTTP_MAIN', 'http://www.battleships.ro');
@@ -36,3 +38,6 @@ define("NAME_PATROLBOAT1", "PatrolBoat1");
 define("NAME_PATROLBOAT2", "PatrolBoat2");
 define("NAME_BATTLESHIP", "Battleship");
 define("NAME_CARRIER", "Carrier");
+
+// savefile name
+define("SAVEFILE_NAME", "heroes.csv");

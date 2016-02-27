@@ -44,6 +44,10 @@ foreach (Battleships::getShips() as $shipName => $ship) {
 	echo $shipName.": ". ($ship->getShipIsSunk() ? 'sunk' : 'floating') . "\n";
 }
 
+if (Battleships::fetchTheConfig()->getPlayerName()) {
+	echo "\nHello, ".Battleships::fetchTheConfig()->getPlayerName().", welcome to Battleships!";
+}
+
 if (Battleships::fetchTheGrid()->getLastShot() !== -1) {
 	echo "\nLast shot : ".(Battleships::fetchTheGrid()->getLastShot() ? 'hit!' : 'miss');
 }
@@ -54,8 +58,15 @@ echo "\nShots miss : ".Battleships::fetchTheGrid()->getShotsMissed();
 echo "\n\n";
 
 if (!Battleships::allShipsAreSunk()) {
-	echo "Enter coordinates (row, col), e.g. A5: ";
+	if (!Battleships::fetchTheConfig()->getPlayerName()) {
+		echo "Enter your name: ";
+	}
+	else {
+		echo "Enter coordinates (row, col), e.g. A5: ";
+	}
 }
 else {
 	echo "\n\nTHE END !!! \n\n";
 }
+
+require('console-hall-of-heroes.php');

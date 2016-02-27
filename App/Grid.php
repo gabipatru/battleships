@@ -81,6 +81,10 @@ class Grid extends AbstractBattleship {
 		$_SESSION['battleships_data']['shots_hit'] 	 = $this->getShotsHit();
 		$_SESSION['battleships_data']['shots_missed']= $this->getShotsMissed();
 		$_SESSION['battleships_data']['last_shot']   = $this->getLastShot();
+		
+		// player data
+		$_SESSION['battleships_data']['player_name'] = $Config->getPlayerName();
+		$_SESSION['battleships_data']['player_start']= $Config->getPlayerStart();
 		return true;
 	}
 	
@@ -134,6 +138,14 @@ class Grid extends AbstractBattleship {
 			}
 			else {
 				$this->setLastShot(-1);
+			}
+			
+			// load player data
+			if (isset($_SESSION['battleships_data']['player_name'])) {
+				$Config->setPlayerName($_SESSION['battleships_data']['player_name']);
+			}
+			if (isset($_SESSION['battleships_data']['player_start'])) {
+				$Config->setPlayerStart($_SESSION['battleships_data']['player_start']);
 			}
 		}
 		return true;
