@@ -1,4 +1,5 @@
 <?php
+$T = Battleships::fetchTheConfig()->getTranslations();
 $spaceBetweenGrids = '      ';
 
 echo "\n\n";
@@ -41,32 +42,32 @@ echo "\n\n";
 require('console-cheating.php');
 
 foreach (Battleships::getShips() as $shipName => $ship) {
-	echo $shipName.": ". ($ship->getShipIsSunk() ? 'sunk' : 'floating') . "\n";
+	echo $T->__($shipName).": ". ($ship->getShipIsSunk() ? $T->__('sunk') : $T->__('floating')) . "\n";
 }
 
 if (Battleships::fetchTheConfig()->getPlayerName()) {
-	echo "\nHello, ".Battleships::fetchTheConfig()->getPlayerName().", welcome to Battleships!";
+	echo $T->___('Hello, %s, welcome to Battleships', Battleships::fetchTheConfig()->getPlayerName());
 }
 
 if (Battleships::fetchTheGrid()->getLastShot() !== -1) {
-	echo "\nLast shot : ".(Battleships::fetchTheGrid()->getLastShot() ? 'hit!' : 'miss');
+	echo "\n" . $T->__('Last Shot'). " : ".(Battleships::fetchTheGrid()->getLastShot() ? $T->__('hit').'!' : $T->__('miss'));
 }
-echo "\nShots fired: ".Battleships::fetchTheGrid()->getShotsFired();
-echo "\nShots hit  : ".Battleships::fetchTheGrid()->getShotsHit();
-echo "\nShots miss : ".Battleships::fetchTheGrid()->getShotsMissed();
+echo "\n" . $T->__('Shots fired') . ": ".Battleships::fetchTheGrid()->getShotsFired();
+echo "\n" . $T->__('Shots hit') . " : ".Battleships::fetchTheGrid()->getShotsHit();
+echo "\n" . $T->__('Shots missed') .": ".Battleships::fetchTheGrid()->getShotsMissed();
 
 echo "\n\n";
 
 if (!Battleships::allShipsAreSunk()) {
 	if (!Battleships::fetchTheConfig()->getPlayerName()) {
-		echo "Enter your name: ";
+		echo $T->__('Enter your name') . ' ';
 	}
 	else {
-		echo "Enter coordinates (row, col), e.g. A5: ";
+		echo $T->__('Enter coordinates (row, col), e.g. A5') . ' ';
 	}
 }
 else {
-	echo "\n\nTHE END !!! \n\n";
+	echo "\n\n" . $T->__('THE END'). " !!! \n\n";
 }
 
 require('console-hall-of-heroes.php');

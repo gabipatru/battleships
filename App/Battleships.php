@@ -41,6 +41,10 @@ class Battleships {
 		self::$Config->setEnableLog(true);
 		self::$Config->setEnableDebug(false);
 		self::$Config->setCheating(false);
+
+		// translations
+		$T = new Translations(LANGUAGE);
+		self::$Config->setTranslations($T);
 		
 		self::log('Start application init');
 		
@@ -97,6 +101,9 @@ class Battleships {
 	}
 	
 	private static function runConsole() {
+		// translations
+		self::$Config->getTranslations()->setModule('console');
+		self::$Config->getTranslations()->loadTranslations();
 		
 		while (!self::allShipsAreSunk()) {
 			system('clear');
@@ -110,6 +117,10 @@ class Battleships {
 	}
 	
 	private static function runHtml() {
+		// translations
+		self::$Config->getTranslations()->setModule('html');
+		self::$Config->getTranslations()->loadTranslations();
+
 		// check if we must start a new game
 		if (self::$Input->requestNewGame()) {
 			self::$Grid->reset();

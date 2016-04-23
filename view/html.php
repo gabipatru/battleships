@@ -1,3 +1,5 @@
+<?php $T = Battleships::fetchTheConfig()->getTranslations(); ?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -54,36 +56,36 @@
 	<form method="POST" action="">
 		<span>
 		<?php if (!Battleships::fetchTheConfig()->getPlayerName()):?>
-			Enter your name: 
+			<?php echo $T->__('Enter your name'); ?>:
 		<?php else:?>
-			Enter coordinates (row, col), e.g. A5:
+			<?php echo $T->__('Enter coordinates (row, col), e.g. A5'); ?>:
 		<?php endif?> 
 		</span>
 		<input type="text" name="fire" id="fire" />
-		<input type="submit" name="submit" value="FIRE" />
-		<input type="submit" name="new_game" value="New Game" />
+		<input type="submit" name="submit" value="<?php echo $T->__('FIRE'); ?>" />
+		<input type="submit" name="new_game" value="<?php echo $T->__('New Game'); ?>" />
 	</form>
 </div>
 <?php else:?>
-	<h3>You won the game!</h3>
+	<h3><?php echo $T->__('You won the game'); ?>!</h3>
 	<form method="POST" action="">
-		<input type="submit" name="new_game" value="New Game" />
+		<input type="submit" name="new_game" value="<?php echo $T->__('New Game'); ?>" />
 	</form>
 <?php endif;?>
 
 <div>
 <?php if (Battleships::fetchTheConfig()->getPlayerName()):?>
-	<p>Hello, <?php echo Battleships::fetchTheConfig()->getPlayerName()?>, welcome to Battleships!</p>
+	<p><?php echo $T->___('Hello, %s, welcome to Battleships', Battleships::fetchTheConfig()->getPlayerName()); ?>!</p>
 <?php endif;?>
 <?php foreach (Battleships::getShips() as $shipName => $ship):?>
-	<p><?php echo $shipName; ?>: <?php echo ($ship->getShipIsSunk() ? 'sunk' : 'floating')?></p>
+	<p><?php echo $T->__($shipName); ?>: <?php echo ($ship->getShipIsSunk() ? $T->__('sunk') : $T->__('floating'))?></p>
 <?php endforeach;?>
 <?php if (Battleships::fetchTheGrid()->getLastShot() !== -1):?>
-	<p>Last shot : <?php echo (Battleships::fetchTheGrid()->getLastShot() ? 'hit!' : 'miss');?></p>
+	<p><?php echo $T->__('Last Shot'); ?> : <?php echo (Battleships::fetchTheGrid()->getLastShot() ? $T->__('hit').'!' : $T->__('miss'));?></p>
 <?php endif;?>
-<p>Shots fired : <?php echo Battleships::fetchTheGrid()->getShotsFired();?></p>
-<p>Shots hit : <?php echo Battleships::fetchTheGrid()->getShotsHit();?></p>
-<p>Shots missed : <?php echo Battleships::fetchTheGrid()->getShotsMissed();?></p>
+<p><?php echo $T->__('Shots fired'); ?> : <?php echo Battleships::fetchTheGrid()->getShotsFired();?></p>
+<p><?php echo $T->__('Shots hit'); ?> : <?php echo Battleships::fetchTheGrid()->getShotsHit();?></p>
+<p><?php echo $T->__('Shots missed'); ?> : <?php echo Battleships::fetchTheGrid()->getShotsMissed();?></p>
 </div>
 
 <?php require('html-hall-of-heroes.php')?>

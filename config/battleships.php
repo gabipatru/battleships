@@ -12,6 +12,7 @@ define('CONFIG_DIR', BASE_DIR . '/config');
 define('LOG_DIR', BASE_DIR . '/logs');
 define('VIEW_DIR', BASE_DIR . '/view');
 define('DATA_DIR', BASE_DIR . '/data');
+define('TRANSLATIONS_DIR', BASE_DIR . '/translations');
 
 // http
 define('HTTP_MAIN', 'http://www.battleships.ro');
@@ -41,3 +42,6 @@ define("NAME_CARRIER", "Carrier");
 
 // savefile name
 define("SAVEFILE_NAME", "heroes.csv");
+
+define('LANGUAGE', 'ro');
+require_once(CONFIG_DIR . '/translations.php');
